@@ -26,7 +26,7 @@ export function AppProvider({ children }) {
     if (token != null && userData != null) {
       setJwt(token);
       setAuthedUser(userData);
-      navigate(`https://transcendent-cocada-414973.netlify.app/home`);
+      navigate(`/home/newfeeds`);
     }
   }, []);
 
