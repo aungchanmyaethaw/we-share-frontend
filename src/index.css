@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600;700&family=PT+Serif:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* need to remove comment */
+body {
+  background-color: #111;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+hr {
+  height: 0.5px;
+  background-color: #ee6640;
+  border: none;
+}
+
+.head {
+  height: 2px;
+  background-color: #eee;
+  border: none;
+}
