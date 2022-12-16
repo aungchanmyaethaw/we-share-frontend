@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext, API_URL } from "../context/AppContext";
 
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineStar } from "react-icons/ai";
@@ -36,7 +36,7 @@ const PostContent = ({
   const getLikes = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:1337/api/stars?filters[post_id][$eq]=${id}`,
+        `${API_URL}/api/stars?filters[post_id][$eq]=${id}`,
         {
           headers: {
             Authorization: `Bearer ${jwt}`,
@@ -57,7 +57,7 @@ const PostContent = ({
   const deleteLike = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:1337/api/stars?filters[post_id][$eq]=${id}&filters[user_id][$eq]=${authedUser.id}`,
+        `${API_URL}/api/stars?filters[post_id][$eq]=${id}&filters[user_id][$eq]=${authedUser.id}`,
         {
           headers: {
             Authorization: `Bearer ${jwt}`,
@@ -65,14 +65,11 @@ const PostContent = ({
         }
       );
       const wantToDeleteStarId = data.data[0].id;
-      await axios.delete(
-        `http://localhost:1337/api/stars/${wantToDeleteStarId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
+      await axios.delete(`${API_URL}/api/stars/${wantToDeleteStarId}`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
       getLikes();
     } catch (e) {
       console.log(e);
@@ -87,7 +84,7 @@ const PostContent = ({
 
     try {
       const res = await axios.post(
-        "http://localhost:1337/api/stars",
+        `${API_URL}/api/stars`,
         {
           data: tempData,
         },
@@ -108,7 +105,7 @@ const PostContent = ({
   const getCommentCount = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:1337/api/comments?filters[post_id][$eq]=${id}`,
+        `${API_URL}/api/comments?filters[post_id][$eq]=${id}`,
         {
           headers: {
             Authorization: `Bearer ${jwt}`,

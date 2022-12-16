@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext, API_URL } from "../context/AppContext";
 import SinglePost from "./SinglePost";
 import Whats from "./Whats";
 import { handleDateFormat } from "../utils";
@@ -23,7 +23,7 @@ const SideBarPage = () => {
     try {
       axios
         .post(
-          "http://localhost:1337/api/posts",
+          `${API_URL}/api/posts`,
           {
             data: tempData,
           },

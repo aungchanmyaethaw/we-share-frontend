@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext, API_URL } from "../context/AppContext";
 import { EditModal } from "./EditModal";
 
 const CommentDotDropdown = ({ commentId, postId, userId }) => {
@@ -15,14 +15,11 @@ const CommentDotDropdown = ({ commentId, postId, userId }) => {
 
   const getSinglepostId = async () => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:1337/api/posts/${postId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
+      const { data } = await axios.get(`${API_URL}/api/posts/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
       setPostOwnerId(data.data.attributes.userId);
     } catch (e) {
       console.log(e);
@@ -31,7 +28,7 @@ const CommentDotDropdown = ({ commentId, postId, userId }) => {
 
   const deleteComment = async () => {
     try {
-      axios.delete(`http://localhost:1337/api/comments/${commentId}`, {
+      axios.delete(`${API_URL}/api/comments/${commentId}`, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },

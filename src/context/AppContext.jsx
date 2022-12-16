@@ -4,6 +4,7 @@ import axios from "axios";
 
 import { handleDateFormat } from "../utils";
 
+export const API_URL = import.meta.env.VITE_REACT_WE_SHARE_API;
 const AppContext = createContext();
 
 export function useAppContext() {
@@ -39,7 +40,7 @@ export function AppProvider({ children }) {
   async function getPosts() {
     try {
       const { data: posts } = await axios.get(
-        "http://localhost:1337/api/posts?sort=updatedAt:desc",
+        `${API_URL}/api/posts?sort=updatedAt:desc`,
         {
           headers: {
             Authorization: `Bearer ${jwt}`,
@@ -47,14 +48,11 @@ export function AppProvider({ children }) {
         }
       );
 
-      const { data: hideposts } = await axios.get(
-        "http://localhost:1337/api/hideposts",
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
+      const { data: hideposts } = await axios.get(`${API_URL}/api/hideposts`, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
 
       const tempArr = await posts.data.filter((post) => {
         return !hideposts.data.some((hiddenPost) => {
@@ -84,7 +82,7 @@ export function AppProvider({ children }) {
   const getComments = async (id) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:1337/api/comments?filters[post_id][$eq]=${id}&sort=updatedAt:desc`,
+        `${API_URL}/api/comments?filters[post_id][$eq]=${id}&sort=updatedAt:desc`,
         {
           headers: {
             Authorization: `Bearer ${jwt}`,

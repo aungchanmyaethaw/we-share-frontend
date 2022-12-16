@@ -1,47 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext, API_URL } from "../context/AppContext";
 import axios from "axios";
-import { RxCross2 } from 'react-icons/rx'
+import { RxCross2 } from "react-icons/rx";
 import { useParams } from "react-router-dom";
 
 // id CommentId or PostId
-export const EditModal = ({ 
-  id,
-  setShowEditModal,
-  isCommentPage = false
-}) => {
+export const EditModal = ({ id, setShowEditModal, isCommentPage = false }) => {
   const [content, setContent] = useState("");
   const { jwt, getPosts, getComments } = useAppContext();
   const postId = useParams();
 
   useEffect(() => {
-    isCommentPage ? getSingleComment() : getSinglePost() ;
+    isCommentPage ? getSingleComment() : getSinglePost();
   }, []);
 
   const getSinglePost = async () => {
-    const { data } = await axios.get(
-      `http://localhost:1337/api/posts/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
+    const { data } = await axios.get(`${API_URL}/api/posts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
     setContent(data.data.attributes.content);
   };
 
   const getSingleComment = async () => {
-    const { data } = await axios.get(
-      `http://localhost:1337/api/comments/${id}`,
-      {
-        headers : {
-          Authorization : `Bearer ${jwt}`,
-        }
-      }
-    );
-    setContent(data.data.attributes.content);  }
+    const { data } = await axios.get(`${API_URL}/api/comments/${id}`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
+    setContent(data.data.attributes.content);
+  };
 
-    const saveComment = (e) => {
+  const saveComment = (e) => {
     e.preventDefault();
     const newContent = {
       content,
@@ -49,24 +40,23 @@ export const EditModal = ({
 
     try {
       axios.put(
-        `http://localhost:1337/api/comments/${id}`,
+        `${API_URL}/api/comments/${id}`,
         {
-          data : {...newContent}
+          data: { ...newContent },
         },
         {
-          headers : {
-            Authorization : `Bearer ${jwt}`
-          }
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
         }
       );
       setShowEditModal(false);
       getComments(postId.id);
       setContent("");
-    }
-    catch (e) {
+    } catch (e) {
       console.log(e);
-    }    
-  }
+    }
+  };
 
   const savePost = (e) => {
     e.preventDefault();
@@ -76,7 +66,7 @@ export const EditModal = ({
 
     try {
       axios.put(
-        `http://localhost:1337/api/posts/${id}`,
+        `${API_URL}/api/posts/${id}`,
         {
           data: { ...newContent },
         },
@@ -88,7 +78,7 @@ export const EditModal = ({
       );
       setShowEditModal(false);
       getPosts();
-      setContent('');
+      setContent("");
     } catch (e) {
       console.log(e);
     }
@@ -104,7 +94,7 @@ export const EditModal = ({
               className="bg-transparent border-0 text-white float-right hover:text-primary"
               onClick={() => setShowEditModal(false)}
             >
-              <RxCross2 className="w-6 h-6"/>
+              <RxCross2 className="w-6 h-6" />
             </button>
           </div>
           <div className="relative p-6 flex-auto">
@@ -119,7 +109,7 @@ export const EditModal = ({
             <button
               className="btn btn-xs hover:scale-110 hover:bg-orange-700 bg-primary text-white"
               type="button"
-              onClick= {!isCommentPage ? savePost : saveComment}
+              onClick={!isCommentPage ? savePost : saveComment}
             >
               Save
             </button>

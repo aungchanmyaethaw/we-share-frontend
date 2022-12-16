@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 import { useNavigate, useParams } from "react-router-dom";
 import { handleDateFormat } from "../utils";
 import SinglePost from "../components/SinglePost";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext, API_URL } from "../context/AppContext";
 import CommentInput from "../components/CommentInput";
 import CommentContent from "../components/CommentContent";
 import axios from "axios";
@@ -32,14 +32,11 @@ const SinglePostDetails = () => {
   }, [jwt]);
 
   const getSinglePost = async () => {
-    const { data } = await axios.get(
-      `http://localhost:1337/api/posts/${tempId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      }
-    );
+    const { data } = await axios.get(`${API_URL}/api/posts/${tempId}`, {
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+    });
 
     const tempObj = {
       id: data.data.id,
@@ -63,7 +60,7 @@ const SinglePostDetails = () => {
 
     try {
       await axios.post(
-        "http://localhost:1337/api/comments",
+        `${API_URL}/api/comments`,
         {
           data: tempData,
         },

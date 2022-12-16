@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext, API_URL } from "../context/AppContext";
 import axios from "axios";
 const SignUp = () => {
   const [userData, setUserData] = useState({
@@ -20,14 +20,11 @@ const SignUp = () => {
     e.preventDefault();
     setIsDisabledBtn(true);
     try {
-      const res = await axios.post(
-        "http://127.0.0.1:1337/api/auth/local/register",
-        {
-          username: userData.username,
-          email: userData.email,
-          password: userData.password,
-        }
-      );
+      const res = await axios.post(`${API_URL}/api/auth/local/register`, {
+        username: userData.username,
+        email: userData.email,
+        password: userData.password,
+      });
       handleJwt(res.data.jwt);
       handleAuthedUser(res.data.user);
       navigate("/home");
@@ -42,7 +39,11 @@ const SignUp = () => {
       {/* Header */}
 
       <div className="flex justify-between items-center max-w-[1024px] mx-auto mb-8">
-        <img className="w-20 h-20 rounded-lg" src="../src/images/2.png" alt="logo" />
+        <img
+          className="w-20 h-20 rounded-lg"
+          src="../src/images/2.png"
+          alt="logo"
+        />
         <h1 className="text-3xl text-white font-head">Create your Account</h1>
       </div>
 
@@ -116,7 +117,7 @@ const SignUp = () => {
         </div>
       </form>
       <div className="text-primary flex gap-2 items-baseline justify-end font-body text-lg">
-        <p>Already have an account?  </p>
+        <p>Already have an account? </p>
         <Link className="underline" to="/">
           Login here
         </Link>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import { useAppContext } from "../context/AppContext";
+import { useAppContext, API_URL } from "../context/AppContext";
 import axios from "axios";
 import { EditModal } from "./EditModal";
 
@@ -10,12 +10,11 @@ const DotDropdown = ({ id, userId }) => {
 
   const deleteOwnPost = async () => {
     try {
-      axios.delete(`http://localhost:1337/api/posts/${id}`, {
+      axios.delete(`${API_URL}/api/posts/${id}`, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
-
 
       getPosts();
     } catch (e) {
@@ -31,7 +30,7 @@ const DotDropdown = ({ id, userId }) => {
 
     try {
       axios.post(
-        "http://localhost:1337/api/hideposts",
+        `${API_URL}/api/hideposts`,
         {
           data: tempData,
         },
