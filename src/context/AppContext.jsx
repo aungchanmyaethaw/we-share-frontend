@@ -26,7 +26,7 @@ export function AppProvider({ children }) {
     if (token != null && userData != null) {
       setJwt(token);
       setAuthedUser(userData);
-      navigate(`/home/newfeeds`);
+      navigate(`/home`);
     }
   }, []);
 
